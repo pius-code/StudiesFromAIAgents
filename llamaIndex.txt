@@ -29,4 +29,33 @@ The QueryEngine allows the agent to what is above
 
 2. Indexing- a data structure that allows to query the data.. for LLMs they use vector embeddings which is a numerical representation of the data 
 
-3. Storing -  
+3. Storing - stores the index to avoid re-indexing them 
+
+4. Query- self - explanatory
+
+5. Evaluation- a critical step in any flow is checking how effective it is relative to other strategies, or when you make changes. Evaluation provides objective measures of how accurate, faithful and fast your responses to queries are.
+
+
+Ways to Load data into LlamaIndex
+
+1. SimpleDirectoryReader: A built-in loader for various file types from a local directory.
+2. LlamaParse: LlamaParse, LlamaIndex’s official tool for PDF parsing, available as a managed API.
+3. LlamaHub: A registry of hundreds of data-loading libraries to ingest data from any source.
+
+
+SimpleDirectoryReader to load data from a folder.
+
+
+from llama_index.core import SimpleDirectoryReader
+reader = SimpleDirectoryReader(input_dir="path/to/directory")
+documents = reader.load_data()
+
+the reader.load_data() breaks it into a document object 
+
+after doing that now we need to break it into smaller pieces called node. A node is a chunmk of text from the original text that is easier to work with. nodes refernce the priginal document 
+
+
+The IngestionPipeline helps us create these nodes through two key transformations.
+
+SentenceSplitter breaks down documents into manageable chunks by splitting them at natural sentence boundaries.
+HuggingFaceEmbedding converts each chunk into numerical embeddings - vector representations that capture the semantic meaning in a way AI can process efficiently.
