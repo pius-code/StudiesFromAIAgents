@@ -111,7 +111,21 @@ TOOLS IN LlamaIndex
 
 2. Search Engine: A tool that lets agent use query engines
 
-3. Toolspecs: a set of tools created by the community 
-
+3. Toolspecs: a set of tools created by the community , we can also ues MCP in LlamaIndex
 4. Utility Tools:special tools that help handle large amount of data from other tools
 
+
+
+from llama_index.core.tools import FunctionTool
+
+def get_weather(location: str) -> str:
+    """Useful for getting the weather for a given location."""
+    print(f"Getting weather for {location}")
+    return f"The weather in {location} is sunny"
+
+tool = FunctionTool.from_defaults(
+    get_weather,
+    name="my_weather_tool",
+    description="Useful for getting the weather for a given location.",
+)
+tool.call("New York")
