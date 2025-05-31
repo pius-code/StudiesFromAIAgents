@@ -1,0 +1,24 @@
+AI agents can be built with smolagent, llamaindex and langraph....
+
+smolagent use code-like to execute task 
+
+LlamaIndex 
+LlamaIndex has three key parts 
+1. components
+2. Tools
+3. Agents 
+
+Components - they are the basic building blocks used in LlamaIndex... They include prompts,models and databases and the components can also help you connect with other tools and libraries 
+
+Tools-they provide specific capabailities... they are the hands of the Llm 
+
+Agents- Agents use the tols to make decisions... they allow to perform the task
+
+workflows - are the step-by-step process that process logic altogether
+
+
+How to Install LlamaIndex
+
+pip install llama-index-[component-type]-[framework-name]
+
+RAG(Retrieval Augemented Generation)- allows you to find relevant information from data
