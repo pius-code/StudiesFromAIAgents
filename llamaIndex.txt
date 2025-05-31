@@ -22,3 +22,11 @@ How to Install LlamaIndex
 pip install llama-index-[component-type]-[framework-name]
 
 RAG(Retrieval Augemented Generation)- allows you to find relevant information from data
+The QueryEngine allows the agent to what is above
+
+5 stages in a RAG
+1. loading- fetching the data from where it lives... maybe a website,pdf,file,another,website,database or api into the your workflows
+
+2. Indexing- a data structure that allows to query the data.. for LLMs they use vector embeddings which is a numerical representation of the data 
+
+3. Storing -  
