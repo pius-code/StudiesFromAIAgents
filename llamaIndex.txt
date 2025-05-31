@@ -59,3 +59,59 @@ The IngestionPipeline helps us create these nodes through two key transformation
 
 SentenceSplitter breaks down documents into manageable chunks by splitting them at natural sentence boundaries.
 HuggingFaceEmbedding converts each chunk into numerical embeddings - vector representations that capture the semantic meaning in a way AI can process efficiently.
+
+Example code
+from llama_index.core import Document
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.core.ingestion import IngestionPipeline
+
+# create the pipeline with transformations
+pipeline = IngestionPipeline(
+    transformations=[
+        SentenceSplitter(chunk_overlap=0),
+        HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5"),
+    ]
+)
+
+nodes = await pipeline.arun(documents=[Document.example()])
+
+
+Now we need to store the the indexes we can do that using ChromaDB
+
+
+
+import chromadb
+from llama_index.vector_stores.chroma import ChromaVectorStore
+
+db = chromadb.PersistentClient(path="./alfred_chroma_db")
+chroma_collection = db.get_or_create_collection("alfred")
+vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
+
+pipeline = IngestionPipeline(
+    transformations=[
+        SentenceSplitter(chunk_size=25, chunk_overlap=0),
+        HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5"),
+    ],
+    vector_store=vector_store,
+)
+
+
+RETRIVING QUERY VIA VECTOR
+
+Before we can query our index, we need to convert it to a query interface. The most common conversion options are:
+
+as_retriever: For basic document retrieval, returning a list of NodeWithScore objects with similarity scores
+as_query_engine: For single question-answer interactions, returning a written response
+as_chat_engine: For conversational interactions that maintain memory across multiple messages, returning a written response using chat history and indexed context
+
+
+TOOLS IN LlamaIndex
+1. functionTool: allows you to convert any python function into a tool
+
+2. Search Engine: A tool that lets agent use query engines
+
+3. Toolspecs: a set of tools created by the community 
+
+4. Utility Tools:special tools that help handle large amount of data from other tools
+
